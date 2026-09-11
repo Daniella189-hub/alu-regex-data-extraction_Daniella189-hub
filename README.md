@@ -1,6 +1,9 @@
 # REGEX ONBOARDING HACKATHON
 
-This is a simple python script that reads a messy raw-data text and extractinside of it the number of emails, credit cards, phone numbers and hastags:
+## Description
+
+This is a simple python script that reads a messy raw-data text and extract inside of it the number of emails, credit cards, phone numbers and hashtags.
+It handles errors and fake data from a submit ticket site where depending on the query or problem you have met you are able to send a message using email and a ticket is assigned to you.
   
 ## The project Structure
 
@@ -16,7 +19,7 @@ python3 src/main.py    or  ./src/main.py`
 
 ## About the input file
 
-input/raw-text.txt is made up to look like a batch of support tickets like ALU submit tickets from a job portal, it contains different messy messages sent by the users and what it stocks is mainly the numbers, emails, credit cards and hashtags of the ticket of each user.it has mixed up information(mails from ALU staff or community and other external people who used the platfor m of submitting tickets)
+Input/raw-text.txt is made up to look like a batch of support tickets like ALU submit tickets from a job portal, it contains different messy messages sent by the users and what it stocks is mainly the numbers, emails, credit cards and hashtags of the ticket of each user.it has mixed up information(mails from ALU staff or community and other external people who used the platform of submitting tickets)
 
 ## The regex patterns
    - Email: `[a-zA-Z0-9_.%]+@[a-zA-Z0-9_.%]+\.(?:com|org|fr|edu|net|io|portal)` matches the normal name@doamin.tld shape. after matching the code also throwa away anything with a double dot (like fake@fake..com) since that's not a real email even though it kind of matches.
@@ -25,7 +28,7 @@ input/raw-text.txt is made up to look like a batch of support tickets like ALU s
    - Hashtag: `#[a-zA-Z]\w*`  A# followed by a letter and then any letters/numbers/underscores. it has tostart with a letter so it doesn't accidentally grab things like "Ticket#10231" as hashtag.
 
 ## ALU email check
-we use three small regex patterns to verify if the emails are from ALU. using the ALU domain and search with re.esarch()
+We use three small regex patterns to verify if the emails are from ALU. using the ALU domain and search with re.esarch()
  <img width="663" height="122" alt="image" src="https://github.com/user-attachments/assets/dc529e2b-ec03-4391-b678-a44694bf2fd8" />
 
 ## Security notes
@@ -37,8 +40,8 @@ Since the text is supposed to be coming from an external API, we don't trust it 
    - We never print or save full emails/cards/phone numbers. Everything gets masked first with `mask_email()`, `mask_card()`, and `mask_number()` — e.g. a****e@alueducation.com or **** **** **** 6467 — so no real personal data ends up sitting in a log file or JSON output.
 
 
-this isn't a full security system, it's just meant to show that we thought about the input possibly being unsafe, not just messy
+This isn't a full security system, it's just meant to show that we thought about the input possibly being unsafe, not just messy
 
-sample output(console)
+## sample output(console)
 <img width="942" height="193" alt="image" src="https://github.com/user-attachments/assets/ed767dfe-4463-4841-bb15-53fb483e8dbf" />
 
