@@ -1,0 +1,103 @@
+{
+  "emails": [
+    {
+      "email": "s******y@alueducation.com",
+      "alu_type": "this is an official email at ALU"
+    },
+    {
+      "email": "p*********t@si.alueducation.com",
+      "alu_type": "this is an si email"
+    },
+    {
+      "email": "p***********n@alueducation.com",
+      "alu_type": "this is an official email at ALU"
+    },
+    {
+      "email": "b*****g@alumni.alueducation.com",
+      "alu_type": "alumni email"
+    },
+    {
+      "email": "k*******a@si.alueducation.com",
+      "alu_type": "this is an si email"
+    },
+    {
+      "email": "d*********e@alueducation.com",
+      "alu_type": "this is an official email at ALU"
+    },
+    {
+      "email": "s*******e@alumni.alueducation.com",
+      "alu_type": "alumni email"
+    },
+    {
+      "email": "b*****g@techstartup.io",
+      "alu_type": "this is a normal email address not from ALU"
+    },
+    {
+      "email": "j*********a@alumni.alueducation.com",
+      "alu_type": "alumni email"
+    },
+    {
+      "email": "r*******r@techstartup.io",
+      "alu_type": "this is a normal email address not from ALU"
+    }
+  ],
+  "credit_cards": [
+    {
+      "card": "**** **** ****5100",
+      "valid": true
+    },
+    {
+      "card": "**** **** ****1111",
+      "valid": false
+    },
+    {
+      "card": "**** **** ****3456",
+      "valid": false
+    },
+    {
+      "card": "**** **** ****4444",
+      "valid": true
+    },
+    {
+      "card": "**** **** ****0005",
+      "valid": true
+    },
+    {
+      "card": "**** **** ****0000",
+      "valid": false
+    },
+    {
+      "card": "**** **** ****6467",
+      "valid": true
+    }
+  ],
+  "phone_numbers": [
+    {
+      "phone": "*******234"
+    },
+    {
+      "phone": "*********200"
+    },
+    {
+      "phone": "*********900"
+    },
+    {
+      "phone": "*********456"
+    },
+    {
+      "phone": "*******455"
+    }
+  ],
+  "hashtags": [
+    "#JR",
+    "#alumni",
+    "#billingissue",
+    "#hiring",
+    "#kibeho2026",
+    "#logistics",
+    "#mentorship",
+    "#recruiting2026",
+    "#src",
+    "#urgent"
+  ]
+}
