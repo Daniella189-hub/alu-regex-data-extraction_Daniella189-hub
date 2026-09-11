@@ -28,11 +28,11 @@ def clean_text(text):
 
 # 1. Email validation          #this email output "something@something.something
 
-valid_email = r"[a-zA-Z0-9_.%]+@[a-zA-Z0-9_.%]+\.(com|org|fr|edu|net|io)$"   # this regex pattern starts with either letters(lower or upper) with dots , underscores, numbers and is followed with the "@" sign and the same features continues and then it ends with .com or .fr or .edu or .net
+valid_email = r"[a-zA-Z0-9_.%]+@[a-zA-Z0-9_.%]+\.(?:com|org|fr|edu|net|io|portal)"   # this regex pattern starts with either letters(lower or upper) with dots , underscores, numbers and is followed with the "@" sign and the same features continues and then it ends with .com or .fr or .edu or .net
 
 # 2.Credit cards              #this one has to contain 16 digits without letters and follow a paatern of 4 digit - 6 digits - 5digits with the "-"character included
 
-valid_credit_card = r"\d{4}[ -]?\d{6}[ -]?\d{5}|\d{4}[ -]?\d{4}[ -]?\d{4}"       # a credit card contains only numbers as you can see, it accpets first 4 digits  then space or hyphens and then six digits and followed with 5 digits or it can starts with 4 digits separated by another successive four digits and the n again 4 digits
+valid_credit_card = r"\d{4}[ -]?\d{6}[ -]?\d{5}|\d{4}[ -]?\d{4}[ -]?\d{4}[ -]?\d{4}"       # a credit card contains only numbers as you can see, it accpets first 4 digits  then space or hyphens and then six digits and followed with 5 digits or it can starts with 4 digits separated by another successive four digits and the n again 4 digits
 
 # 3. phone number validation       #a valid number contain(+250) or start with 07..) for rwandan numbers it is followed with 9 digits 
 
@@ -70,7 +70,7 @@ def credit_card_valid(card):
 
 def scan_alu_email(email):
      """ checks if the email given is an alu email"""
-     if re.search(valid_alumi_email, email, re.IGNORECASE):
+     if re.search(valid_alumni_email, email, re.IGNORECASE):
          return "alumni email"
      if re.search(valid_si_email, email, re.IGNORECASE):
          return "this is an si email"
@@ -90,6 +90,8 @@ def mask_card(card):
 
 # mask the email
 def mask_email(email):
+    if "@" not in email:
+        return email    #not a real email, skip masking
     name, domain = email.split("@")
     if len(name) <= 2 :
         hidden = name[0] + "*"
