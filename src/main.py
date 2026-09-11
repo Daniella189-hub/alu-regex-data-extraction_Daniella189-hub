@@ -36,7 +36,7 @@ valid_credit_card = r"\d{4}[ -]?\d{6}[ -]?\d{5}|\d{4}[ -]?\d{4}[ -]?\d{4}"      
 
 # 3. phone number validation       #a valid number contain(+250) or start with 07..) for rwandan numbers it is followed with 9 digits 
 
-valid_phone_number = r"+\d{1,3}[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}|0\d{3}[ -]?\d{3}[ -]?\d{3}|\(\d{3}\)[ -]?\d{3,4}[ -]?\d{0,4}"       # the phone number starts with the code (+250) or any other code and then it followed by eith 3 other digits and spearted by other 3 or it can also start with a "0" and then followed by more digits can be 3 ir 4 
+valid_phone_number = r"\+\d{1,3}[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}|0\d{3}[ -]?\d{3}[ -]?\d{3}|\(\d{3}\)[ -]?\d{3,4}[ -]?\d{0,4}"       # the phone number starts with the code (+250) or any other code and then it followed by eith 3 other digits and spearted by other 3 or it can also start with a "0" and then followed by more digits can be 3 ir 4 
 
 # 4. hastag validation
 
