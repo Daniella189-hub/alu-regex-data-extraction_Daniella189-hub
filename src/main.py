@@ -13,13 +13,22 @@ it also does some small basic checkings if the text is to be trusted or not espe
 import re
 import json
 import os
+def clean_text(text):
+
+    text = re.sub(r"<script.*?>.*?</script>", "[removed script]", text, flags=re.IGNORECASE | re.DOTALL)
+    text = re.sub(r"<[^>]+>", "[removed html]", text)  # remove any other html tags
+    text = re.sub(r"DROP TABLE", "[blocked]", text, flags=re.IGNORECASE)
+    text = re.sub(r"UNION SELECT", "[blocked]", text, flags=re.IGNORECASE)
+    return text
+
+
 #------------------------
 # HANDLING REGEX PATTERNS
 #------------------------
 
 # 1. Email validation          #this email output "something@something.something
 
-valid-email = r'^[a-zA-Z0-9_.]+@[a-zA-Z0-9_]+\.(com|org|fr|edu|net)$'   # this regex pattern starts with either letters(lower or upper) with dots , underscores, numbers and is followed with the "@" sign and the same features continues and then it ends with .com or .fr or .edu or .net
+valid_email = r"[a-zA-Z0-9_.%]+@[a-zA-Z0-9_.%]+\.(com|org|fr|edu|net|io)$"   # this regex pattern starts with either letters(lower or upper) with dots , underscores, numbers and is followed with the "@" sign and the same features continues and then it ends with .com or .fr or .edu or .net
 
 # 2.Credit cards              #this one has to contain 16 digits without letters and follow a paatern of 4 digit - 6 digits - 5digits with the "-"character included
 
@@ -27,11 +36,11 @@ valid_credit_card = r"\d{4}[ -]?\d{6}[ -]?\d{5}|\d{4}[ -]?\d{4}[ -]?\d{4}"      
 
 # 3. phone number validation       #a valid number contain(+250) or start with 07..) for rwandan numbers it is followed with 9 digits 
 
-valid_phone_number = r"^\+\d{1,3}[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}|0\d{3}[ -]?\d{3}[ -]?\d{3}|\(\d{3}\)[ -]?\d{3,4}[ -]?\d{0,4}"       # the phone number starts with the code (+250) or any other code and then it followed by eith 3 other digits and spearted by other 3 or it can also start with a "0" and then followed by more digits can be 3 ir 4 
+valid_phone_number = r"+\d{1,3}[ -]?\d{3}[ -]?\d{3}[ -]?\d{3}|0\d{3}[ -]?\d{3}[ -]?\d{3}|\(\d{3}\)[ -]?\d{3,4}[ -]?\d{0,4}"       # the phone number starts with the code (+250) or any other code and then it followed by eith 3 other digits and spearted by other 3 or it can also start with a "0" and then followed by more digits can be 3 ir 4 
 
 # 4. hastag validation
 
-valid_hastag = r"^#[a-zA-Z]\w*"     # the hashtags always  start with a "#" and then followed by a letter and then followed by any other character
+valid_hastag = r"#[a-zA-Z]\w*"     # the hashtags always  start with a "#" and then followed by a letter and then followed by any other character
 
 # 5. ALU email validation
 valid_alumni_email = r"@alumni\.alueducation\.com$"       # this verifies if the email is form an alumni
@@ -50,14 +59,14 @@ def credit_card_valid(card):
     if len(set(digits)) == 1:
         return False
     total=0
-    digigts.reverse()
+    digits.reverse()
     for i, d in enumerate(digits):
         if i % 2 == 1:
             d = d * 2
             if d > 9:
                 d = d - 9
-         total += d
-     return total % 10 == 0
+        total += d
+    return total % 10 == 0
 
 def scan_alu_email(email):
      """ checks if the email given is an alu email"""
@@ -66,7 +75,7 @@ def scan_alu_email(email):
      if re.search(valid_si_email, email, re.IGNORECASE):
          return "this is an si email"
      if re.search(valid_official_email, email, re.IGNORECASE):
-         retrun "this is an official email at ALU"
+         return "this is an official email at ALU"
      else:
          return "this is a normal email address not from ALU"
 
@@ -97,11 +106,11 @@ def mask_number(phone):
 # -----------------------
 
 def extract_all(text):
-""" in this side we are trying to extract  the very thing we would like to have in our output, results is a dictionary where emails, credit-cards, phone numbers are keys and they are being attributed the output of what wiill be found in the raw-text.txt file and that matches the regex pattern found in respectively valid -email, valid-credit-card, valid-phone numbers and valid-hastag as values and this is what will be stocked in the sample-output.json file """
+    """ in this side we are trying to extract  the very thing we would like to have in our output, results is a dictionary where emails, credit-cards, phone numbers are keys and they are being attributed the output of what wiill be found in the raw-text.txt file and that matches the regex pattern found in respectively valid -email, valid-credit-card, valid-phone numbers and valid-hastag as values and this is what will be stocked in the sample-output.json file """
 
-    text = clean_text(text)
+    text = clean_text(text)        # here we decided to use the clean Data so we can deal with easy and not messy data
 
-    results = {
+    results = {                         #we declared a dictionary results that contain everything from what we want to regex pattern
             "emails":[],
             "credit_cards":[],
             "phone_numbers":[],
@@ -109,7 +118,7 @@ def extract_all(text):
     }
 
     for email in set(re.findall(valid_email, text)):        # find in the raw-text.txt anything that matches the pattern in valid_email
-        if email is not valid_email:
+        if ".." in email:
             continue        # if it is not a valid it just jumps it and doesnt store it in the output file
         results["emails"].append({          # the results collected will be appended as values to the key email
             "email": mask_email(email),     # for security purposes tthe email will be hidden in hastags in th eoutput fie
@@ -117,15 +126,15 @@ def extract_all(text):
         })
 
     # credit cards
-    for card in set(re,findall(valid_credit_card, text)):        # find in the raw-text.txt anything that matches the pattern in valid_credit_card
+    for card in set(re.findall(valid_credit_card, text)):        # find in the raw-text.txt anything that matches the pattern in valid_credit_card
         results["credit_cards"].append({                         # the resulys are to be appended as values to the keys credit_cards
             "card":mask_card(card),                              # remember to hash the credit card for security purpose
             "valid": credit_card_valid(card),                    # applying th Luhn Algorithm to be able to track a credit card
         })
     # phone numbers
-    for phone in set(re,finadall(valid_phone_number, text)):      # find in the raw-text.txt anything that matches the pattern in valid_phone_number
+    for phone in set(re.findall(valid_phone_number, text)):      # find in the raw-text.txt anything that matches the pattern in valid_phone_number
         results["phone_numbers"].append({                         # appending the results to the key phone_numbers  as its values  found
-            "phone": mask_phone(phone),                           # Hashing the phone number for security purposes
+            "phone": mask_number(phone),                           # Hashing the phone number for security purposes
         })
     #hashtags
     results["hashtags"] = sorted(set(re.findall(valid_hastag, text)))      #sorting the results found in the raw-text.txt that matches hashtags
@@ -150,7 +159,7 @@ def main():
         print("Emails extracted from raw data:", len(results["emails"]))     # this is how it is supposed to write it and the the dictonary "results" will diaplay what it holds for the key "emails" and its values
         print("Credit cards extracted from raw data :", len(results["credit_cards"]))   # this is how it is supposed to write it and the dictionary"results" will display what it hols for the key "credit_cards" and its values
         print("phone numbers found:", len(results["phone_numbers"]))
-        print("hastags extracted from raw data:", len(results["hasatags"]))
+        print("hastags extracted from raw data:", len(results["hashtags"]))
         print("the results sare saved to:", output_path)
 
 if __name__=="__main__":
